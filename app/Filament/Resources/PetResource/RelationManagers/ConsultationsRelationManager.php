@@ -2,8 +2,12 @@
 
 namespace App\Filament\Resources\PetResource\RelationManagers;
 
+use App\Services\AIDiagnosticService;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,6 +30,26 @@ class ConsultationsRelationManager extends RelationManager
                     ->columnSpanFull()
                     ->autosize()
                     ->required(),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('aiSuggest')
+                        ->label('Asistir con IA')
+                        ->icon('heroicon-o-sparkles')
+                        ->color('info')
+                        ->action(function (Get $get, Set $set, $livewire) {
+                            try {
+                                $pet = $livewire->getOwnerRecord();
+                                $result = app(AIDiagnosticService::class)->suggest($pet, $get('anamnesis'));
+                                $set('diagnosis', $result['diagnosis']);
+                                $set('treatment', $result['treatment']);
+                            } catch (\Throwable $e) {
+                                Notification::make()
+                                    ->title('Error al generar sugerencia')
+                                    ->body($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
+                        }),
+                ])->columnSpanFull(),
                 Forms\Components\Textarea::make('diagnosis')
                     ->translateLabel()
                     ->columnSpanFull()

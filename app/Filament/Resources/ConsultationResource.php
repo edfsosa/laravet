@@ -5,8 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ConsultationResource\Pages;
 use App\Filament\Resources\ConsultationResource\RelationManagers;
 use App\Models\Consultation;
+use App\Services\AIDiagnosticService;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,6 +33,27 @@ class ConsultationResource extends Resource
                     ->columnSpanFull()
                     ->autosize()
                     ->required(),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('aiSuggest')
+                        ->label('Asistir con IA')
+                        ->icon('heroicon-o-sparkles')
+                        ->color('info')
+                        ->action(function (Get $get, Set $set, $record) {
+                            try {
+                                $pet = $record?->pet;
+                                $result = app(AIDiagnosticService::class)->suggest($pet, $get('anamnesis'));
+                                $set('diagnosis', $result['diagnosis']);
+                                $set('treatment', $result['treatment']);
+                            } catch (\Throwable $e) {
+                                Notification::make()
+                                    ->title('Error al generar sugerencia')
+                                    ->body($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
+                        })
+                        ->hidden(fn($record) => $record === null),
+                ])->columnSpanFull(),
                 Forms\Components\Textarea::make('diagnosis')
                     ->translateLabel()
                     ->columnSpanFull()
