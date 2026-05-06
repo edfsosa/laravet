@@ -16,11 +16,12 @@ Este proyecto es un trabajo de **Tesis Final de Grado** de la carrera **Ingenier
 
 ## 🚀 Características
 
+- **Diagnóstico Asistido por IA**: Botón "Asistir con IA" en el formulario de consulta que sugiere diagnóstico y tratamiento usando Claude (Anthropic), basándose en la anamnesis y los datos clínicos de la mascota
 - **Gestión de Clientes (Propietarios)**: Registro y administración de información de clientes
 - **Gestión de Mascotas**: Información detallada de mascotas incluyendo raza, edad y datos médicos
 - **Consultas Veterinarias**: Registro de consultas, síntomas y tratamientos
 - **Cirugías**: Control de procedimientos quirúrgicos y seguimiento postoperatorio
-- **Vacunaciones**: Registro completo de vacunas y fechas de aplicación
+- **Vacunaciones**: Registro completo de vacunas y fechas de aplicación con recordatorios automáticos
 - **Pruebas/Exámenes Laboratoriales**: Documentación de tests realizados
 - **Ubicaciones**: Integración con divisiones administrativas de Paraguay (departamentos, ciudades, barrios)
 - **Panel de Administración**: Interfaz intuitiva con Filament
@@ -90,6 +91,16 @@ php artisan key:generate
 
 **Nota**: El archivo `.env.example` contiene la configuración por defecto para SQLite. Si deseas usar MySQL o PostgreSQL, edita el archivo `.env` con la configuración de tu base de datos.
 
+#### Variable para la IA (opcional)
+
+Para habilitar el diagnóstico asistido por IA, agrega tu API key de Anthropic en el `.env`:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Puedes obtener la key en [console.anthropic.com](https://console.anthropic.com). Sin esta variable, la aplicación funciona normalmente pero el botón "Asistir con IA" retornará un error.
+
 ### Paso 5: Crear la Base de Datos y Ejecutar Migraciones
 ```bash
 php artisan migrate
@@ -100,36 +111,41 @@ Este comando:
 - Crea todas las tablas necesarias
 - Ejecuta todos los seeders de datos iniciales
 
-### Paso 6: Llenar la Base de Datos con los datos necesarios
+### Paso 6: Llenar la Base de Datos con los datos de demo
 ```bash
 php artisan db:seed
 ```
 
-Este comando población la base de datos con datos de ejemplo para pruebas.
+Este comando llena la base de datos con datos de ejemplo contextualizados en Paraguay:
+- 3 veterinarios con ubicaciones del departamento Central
+- 10 propietarios con nombres, CI y teléfonos paraguayos
+- 15 mascotas (caninos y felinos) con razas y datos clínicos reales
+- 12 consultas veterinarias, 23 vacunaciones, 6 cirugías y 9 exámenes de laboratorio
 
-### Paso 7: Compilar Assets Frontend
+### Paso 7: Iniciar el Servidor de Desarrollo
 
-#### Para Producción:
+La forma más simple es ejecutar un único comando que levanta el servidor PHP y Vite en paralelo:
+
 ```bash
-npm run build
-```
-
-#### Para Desarrollo (con hot-reload):
-En una terminal ejecuta:
-```bash
-npm run dev
-```
-
-Esto inicia el servidor de desarrollo de Vite que recompila assets automáticamente cuando haces cambios.
-
-### Paso 8: Iniciar el Servidor de Desarrollo
-
-En otra terminal (si no estás usando `npm run dev`):
-```bash
-php artisan serve
+composer run dev
 ```
 
 La aplicación estará disponible en: **http://localhost:8000**
+
+#### Alternativa (dos terminales separadas):
+
+```bash
+# Terminal 1 - servidor PHP
+php artisan serve
+
+# Terminal 2 - assets con hot-reload
+npm run dev
+```
+
+#### Para producción (compilar assets):
+```bash
+npm run build
+```
 
 ## 🔐 Acceso a la Aplicación
 
@@ -139,7 +155,12 @@ La aplicación estará disponible en: **http://localhost:8000**
 ### Panel de Administración
 - **http://localhost:8000/admin**
 
-Las credenciales de acceso dependerán de los usuarios creados durante la configuración.
+Credenciales de acceso (datos demo):
+
+| Campo | Valor |
+|-------|-------|
+| Email | `admin@mbopivet.com.py` |
+| Contraseña | `password` |
 
 ## 📁 Estructura del Proyecto
 
@@ -221,7 +242,8 @@ laravet/
 ### Otros Comandos Útiles
 | Comando | Descripción |
 |---------|-------------|
-| `php artisan serve` | Iniciar servidor de desarrollo (puerto 8000) |
+| `composer run dev` | Iniciar servidor PHP + Vite en una sola terminal |
+| `php artisan serve` | Iniciar solo el servidor PHP (puerto 8000) |
 | `php artisan serve --port=8080` | Iniciar servidor en puerto personalizado |
 | `php artisan cache:clear` | Limpiar caché |
 | `php artisan config:cache` | Caché configuración |
@@ -291,4 +313,4 @@ Para reportar problemas, preguntas o sugerencias, por favor abre un issue en el 
 
 ---
 
-**Última actualización**: Mayo 2026
+**Última actualización**: Mayo 2026 — v1.1 (IA + seeders demo)

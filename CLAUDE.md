@@ -22,7 +22,7 @@ php artisan test --filter=NombreDelTest
 # Migrations & seeders
 php artisan migrate
 php artisan db:seed
-php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed   # Resetea y rellena con datos demo
 
 # Filament
 php artisan filament:make-resource NombreRecurso --generate
@@ -57,9 +57,33 @@ Los recursos principales son `PetResource` y `OwnerResource`. `PetResource` agru
 
 El widget `PetSpeciesOverview` muestra estadísticas de especies en el dashboard.
 
+### Diagnóstico asistido por IA
+
+`app/Services/AIDiagnosticService.php` encapsula la integración con la API de Claude (Anthropic). El método `suggest(Pet $pet, string $anamnesis): array` construye un prompt con los datos clínicos de la mascota (especie, raza, edad, peso, género, reproducción) y la anamnesis del veterinario, llama a `claude-opus-4-7` y retorna `['diagnosis' => '...', 'treatment' => '...']` en JSON.
+
+El botón **"Asistir con IA"** aparece en el formulario de consulta dentro de `ConsultationsRelationManager` (flujo principal) y en `ConsultationResource` (solo en edición, cuando ya existe el registro con pet asociado). Al presionarlo, pre-rellena los campos Diagnóstico y Tratamiento — el veterinario puede editar antes de guardar.
+
+Requiere `ANTHROPIC_API_KEY` en `.env`. La key se obtiene en [console.anthropic.com](https://console.anthropic.com).
+
 ### Tareas programadas
 
 `routes/console.php` define el comando `send:vaccination-notifications` que corre cada minuto para recordatorios de vacunación.
+
+### Seeders (datos demo)
+
+`php artisan migrate:fresh --seed` carga datos contextualizados en Paraguay:
+
+| Seeder | Contenido |
+|--------|-----------|
+| `UserSeeder` | 3 veterinarios con ubicaciones del departamento Central |
+| `OwnerSeeder` | 10 propietarios con CI, teléfono y dirección paraguayos |
+| `PetSeeder` | 15 mascotas (10 caninos, 5 felinos) con razas y datos reales |
+| `ConsultationSeeder` | 12 consultas con casos clínicos veterinarios reales |
+| `VaccinationSeeder` | 23 registros (Séptuple, Antirrábica, Triple Felina, Leucemia Felina) |
+| `SurgerySeeder` | 6 cirugías (castraciones, OVH, suturas, extracción dental) |
+| `TestSeeder` | 9 exámenes (hemograma, bioquímica, ELISA, urinálisis, radiografía) |
+
+Credenciales de acceso demo: `admin@mbopivet.com.py` / `password`
 
 ### Convenciones del proyecto
 
@@ -67,3 +91,4 @@ El widget `PetSpeciesOverview` muestra estadísticas de especies en el dashboard
 - Los campos de `Pet` como `species`, `gender`, `size`, `reproduction` son enums PHP definidos directamente en el modelo.
 - Las imágenes de mascotas se suben con el editor de imágenes de Filament.
 - La base de datos por defecto es SQLite (`database/database.sqlite`). Para MySQL, configurar `DB_*` en `.env`.
+- Los seeders usan queries SQL con collation de MySQL para búsquedas de ciudades con acentos (ej: "Itauguá").
