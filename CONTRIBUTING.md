@@ -14,8 +14,8 @@
 ```bash
 # Fork el repositorio en GitHub
 # Luego clona tu fork:
-git clone https://github.com/TU_USUARIO/e-vet.git
-cd e-vet
+git clone https://github.com/TU_USUARIO/laravet.git
+cd laravet
 ```
 
 ### Paso 2: Crear una Rama de Trabajo
