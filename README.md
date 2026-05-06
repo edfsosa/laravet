@@ -100,7 +100,7 @@ Este comando:
 - Crea todas las tablas necesarias
 - Ejecuta todos los seeders de datos iniciales
 
-### Paso 6 (Opcional): Llenar la Base de Datos con Datos de Ejemplo
+### Paso 6: Llenar la Base de Datos con los datos necesarios
 ```bash
 php artisan db:seed
 ```
