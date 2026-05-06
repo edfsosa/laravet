@@ -1,6 +1,6 @@
-# Guía de Contribución - E-Vet
+# Guía de Contribución - Laravet
 
-¡Gracias por interesarte en contribuir a E-Vet! Este documento proporciona directrices para contribuir al proyecto.
+¡Gracias por interesarte en contribuir a Laravet! Este documento proporciona directrices para contribuir al proyecto.
 
 ## 📋 Antes de Comenzar
 

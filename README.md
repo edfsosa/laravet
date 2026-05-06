@@ -1,8 +1,18 @@
-# E-Vet
+# Laravet
 
-Sistema de gestión clínica para la veterinaria "Eirevet" de Areguá, Paraguay.
+Sistema de gestión clínica con diagnóstico asistido por inteligencia artificial para la veterinaria "Mbopivet" de Areguá, Paraguay.
 
-E-Vet es una aplicación web moderna que facilita la administración de clientes, mascotas, consultas, cirugías y registros médicos en una clínica veterinaria.
+Laravet es una aplicación web moderna que facilita la administración de clientes, mascotas, consultas, cirugías y registros médicos en una clínica veterinaria, incorporando capacidades de diagnóstico inteligente.
+
+## 📚 Proyecto de Tesis
+
+Este proyecto es un trabajo de **Tesis Final de Grado** de la carrera **Ingeniería en Informática** de la **Universidad del Cono Sur de las Américas (UCSA)**.
+
+**Título de la Tesis**: *"LARAVET: APLICACIÓN WEB DE GESTIÓN CLÍNICA CON DIAGNÓSTICO ASISTIDO POR INTELIGENCIA ARTIFICIAL PARA LA VETERINARIA MBOPIVET"*
+
+**Institución**: Universidad del Cono Sur de las Américas (UCSA)  
+**Carrera**: Ingeniería en Informática  
+**Año**: 2026
 
 ## 🚀 Características
 
@@ -269,7 +279,7 @@ Para contribuir al proyecto, por favor consulta [CONTRIBUTING.md](CONTRIBUTING.m
 
 ## 📝 Licencia
 
-Este proyecto está bajo licencia privada. Todos los derechos reservados para "Eirevet".
+Este proyecto está bajo licencia privada. Todos los derechos reservados para "Mbopivet".
 
 ## 👨‍💻 Autores
 
