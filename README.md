@@ -51,8 +51,8 @@ git --version          # Debe mostrar una versión de git
 
 ### Paso 1: Clonar el Repositorio
 ```bash
-git clone https://github.com/edfsosa/e-vet.git
-cd e-vet
+git clone https://github.com/edfsosa/laravet.git
+cd laravet
 ```
 
 ### Paso 2: Instalar Dependencias PHP
@@ -144,7 +144,7 @@ Las credenciales de acceso dependerán de los usuarios creados durante la config
 ## 📁 Estructura del Proyecto
 
 ```
-e-vet/
+laravet/
 ├── app/                          # Código de aplicación
 │   ├── Filament/                # Recursos del panel de administración
 │   │   └── Resources/           # Interfaz para gestionar entidades
